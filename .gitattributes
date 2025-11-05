@@ -1,6 +1,6 @@
+*.db filter=lfs diff=lfs merge=lfs -text
 *.md filter=lfs diff=lfs merge=lfs -text
 *.gitignore filter=lfs diff=lfs merge=lfs -text
-*.db filter=lfs diff=lfs merge=lfs -text
 /backend/node_modules/.bin/cross-env filter=lfs diff=lfs merge=lfs -text
 /backend/node_modules/.bin/cross-env-shell filter=lfs diff=lfs merge=lfs -text
 *.cmd filter=lfs diff=lfs merge=lfs -text
