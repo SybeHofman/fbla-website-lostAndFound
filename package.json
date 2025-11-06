@@ -1,3 +1,7 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5edd767f84b33caf23c62dc2fbfbab67bf7240ce466ec96de3ed853a00b62d0e
-size 214
+{
+  "scripts": {
+    "backend-debug": "cd backend && nodemon --inspect --no-deprecation server.js",
+    "backend": "cd backend && nodemon --no-deprecation server.js",
+    "client": "cd client && npm run dev"
+  }
+}

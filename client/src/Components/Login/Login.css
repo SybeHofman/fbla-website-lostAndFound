@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f1fdccec0936695bb96928f2455bd32d0e2dc2b04b1b6960ecd37b495a07b74c
-size 193
+.login {
+  padding: 10px;
+  background-color: lightblue;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  width: 300px;
+  border-radius: 5%;
+}
+
+.login-contents {
+  margin:10px;
+}

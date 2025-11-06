@@ -1,3 +1,25 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a2b56e1ba2147c6057856f0f2d75702d40e256f08615c9864c038b503b2be163
-size 366
+.item-text {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.item-claimed {
+  font-size: 1.2em;
+  color: green;
+  margin-bottom: 10px;
+}
+
+.item-picture {
+  max-width: 200px;
+  max-height: 200px;
+}
+
+.item {
+  border: 3px solid orange;
+  margin: 10px;
+  background-color: darkgrey;
+  width: min-content;
+  padding-left: 10px;
+  padding-right: 10px;
+}

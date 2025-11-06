@@ -1,3 +1,81 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:bb3bd51160cf596555920f10d65b1673fcf6d983d74702a6ce35ecaf57d2031c
-size 1339
+.navbar{
+  padding: 8px 12px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: lightgrey;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.navbar-left{
+  display: flex;
+  align-items: center;
+}
+
+.navbar-content{
+  margin: 0 8px;
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+.right-links{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hamburger{
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.hamburger .bar{
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: black;
+  margin: 4px 0;
+}
+
+/* Mobile styles */
+@media (max-width: 680px) {
+  .hamburger{
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* hide the horizontal links by default on small screens */
+  .right-links{
+    display: none;
+    position: absolute;
+    right: 12px;
+    top: 56px;
+    background: white;
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+    padding: 8px;
+    flex-direction: column;
+    min-width: 140px;
+    z-index: 200;
+  }
+
+  /* when open, show vertical menu */
+  .right-links.open{
+    display: flex;
+  }
+
+  .navbar-content{
+    padding: 6px 10px;
+  }
+}
