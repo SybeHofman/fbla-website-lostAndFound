@@ -1,3 +1,10 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:068bd2dc3cf1aa7354413fb5362067bfadd6d36171bc8713fde58fea96b135d2
-size 121
+{
+  "dependencies": {
+    "argon2": "^0.44.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "mongodb": "^7.0.0",
+    "mongoose": "^8.19.3",
+    "nedb": "^1.8.0"
+  }
+}

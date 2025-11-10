@@ -1,4 +1,3 @@
-import { preconnect } from "react-dom";
 import "./Item.css";
 import { useRef, useState } from "react";
 

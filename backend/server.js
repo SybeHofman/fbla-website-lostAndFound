@@ -1,3 +1,36 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:099432d0883888649d7549c2bfd2fddbf20edb7e5f95ccef779c940020a4f469
-size 820
+const express = require("express");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const app = express();
+const cors = require("cors");
+
+const mongoURI = "mongodb+srv://sybethofman_db_user:523cobrabooks@cluster0.hqiyc3d.mongodb.net/?appName=Cluster0";
+
+app.use(express.json({limit: "50mb"}));
+
+app.use(express.static(__dirname, {
+    etag: false,
+    lastModified: false
+}));
+
+app.use(cors({ origin: "http://localhost:3000" }));
+
+
+app.use(bodyParser.json({ limit: "50mb" }));
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
+
+app.use("/api/users", require("./routes/userRoute"));
+app.use("/api/messages", require("./routes/messageRoute"));
+app.use("/api/items", require("./routes/itemRoute"));
+
+mongoose
+    .connect(mongoURI)
+    .then(() => {
+        console.log('Connected to MongoDB');
+        app.listen(PORT, '0.0.0.0', () => console.log(`Backend running on port ${PORT}`));
+    })
+    .catch(err => console.error('Failed to connect to MongoDB:', err));
