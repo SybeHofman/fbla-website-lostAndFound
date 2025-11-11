@@ -3,7 +3,7 @@ import Login from "./Login/Login.tsx";
 import Signup from "./Signup/Signup.tsx";
 import Homepage from "./Homepage/Homepage.tsx";
 import NavBar from "./NavBar/NavBar.tsx";
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
 function App() {

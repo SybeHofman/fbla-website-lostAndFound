@@ -1,5 +1,5 @@
 import "./Login.css";
-import {Link} from 'react-router-dom';
+import {Link} from "react-router-dom";
 import { useRef, useState } from "react";
 import type { MouseEvent } from "react";
 
@@ -27,29 +27,30 @@ function Login () {
   const authenticate = async (username: string, password: string) => {
 
     const options = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({username, password})
     }
 
-    const response = await fetch('/api/users/authenticate', options);
+    const response = await fetch("/api/users/authenticate", options);
 
     if(!response.ok) {
       console.log("Authentication failed");
       return;
     }
 
-    const id = await response.json();
-    console.log(id);
+    const user = await response.json();
+    console.log(user);
     // if(rememberMe){
     //   localStorage.setItem("_id", JSON.stringify(id.id));
     // } else {
     //   sessionStorage.setItem("_id", JSON.stringify(id.id));
     // }
 
-    sessionStorage.setItem("_id", JSON.stringify(id.id));
+    sessionStorage.setItem("_id", JSON.stringify(user._id));
+    sessionStorage.setItem("username", JSON.stringify(user.username));
   }
 
   return (

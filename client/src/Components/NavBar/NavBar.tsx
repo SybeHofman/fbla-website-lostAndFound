@@ -18,7 +18,7 @@ function NavBar() {
 
       {/* hamburger visible on small screens */}
       <button
-        className={`hamburger ${open ? 'open' : ''}`}
+        className={`hamburger ${open ? "open" : ""}`}
         aria-label="Toggle menu"
         aria-expanded={open}
         onClick={() => setOpen((prev) => !prev)}
@@ -29,7 +29,7 @@ function NavBar() {
       </button>
 
       {/*Right components — on small screens this becomes a vertical menu when .open */}
-      <div className={`right-links ${open ? 'open' : ''}`}>
+      <div className={`right-links ${open ? "open" : ""}`}>
         <a className="navbar-content" href="/login">Login</a>
         <a className="navbar-content" href="/signup">Sign Up</a>
         <a className="navbar-content" onClick={logOut} href="/">Log out</a>

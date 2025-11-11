@@ -24,16 +24,17 @@ function Signup() {
   }
 
   const postData = async (username: string, password: string) => {
+    console.log("Adding a new user!");
     const list = {username: username, password: password}
     const options = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(list)
     }
 
-    const response = await fetch('/api/users', options);
+    const response = await fetch("/api/users", options);
 
     const data = await response.json();
     console.log(data);

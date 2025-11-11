@@ -24,7 +24,6 @@ app.listen(PORT, () => {
 });
 
 app.use("/api/users", require("./routes/userRoute"));
-app.use("/api/messages", require("./routes/messageRoute"));
 app.use("/api/items", require("./routes/itemRoute"));
 
 mongoose

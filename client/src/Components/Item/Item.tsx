@@ -1,5 +1,5 @@
 import "./Item.css";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 
 interface ItemProps {
   text: string;
@@ -13,7 +13,16 @@ const Item: React.FC<ItemProps> = ({text, picture, claimed, id, claimedBy}) => {
 
   const claimedRef = useRef<HTMLInputElement>(null);
 
+  console.log("Item claimedBy prop: ", claimedBy);
+  console.log("Item claimed state prop: ", claimed);
+
   const [itemClaimed, setItemClaimed] = useState(claimed);
+
+  console.log("Item claimed state: ", itemClaimed);
+
+  useEffect(() => {
+    setItemClaimed(claimed);
+  }, [claimed]);
 
   const updateClaimed = async () => {
     console.log("Updating claimed status...");
@@ -27,8 +36,9 @@ const Item: React.FC<ItemProps> = ({text, picture, claimed, id, claimedBy}) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          claimed: claimedRef.current?.checked,
-          id: id
+          claimed: claimedRef.current?.checked, //The claimed status from the checkbox
+          id: id, //The id of the item to update
+          claimedBy: sessionStorage.getItem("username") //Username of the claimer
         }
       )}
 
@@ -47,7 +57,7 @@ const Item: React.FC<ItemProps> = ({text, picture, claimed, id, claimedBy}) => {
       {text !== "Loading items" && text !== "No items" ? 
         (
         <>
-          <div className="item-claimed">{itemClaimed + ""}</div>
+          <div className="item-claimed">Claimed by: {itemClaimed ? claimedBy.replaceAll("\"", "") : "No one"}</div>
           {picture !== "" ? <img src={picture} className="item-picture"></img> : null}
           <label className="item-claimed-label" htmlFor="item-claimed-checkbox">Claim:</label>
           <input type="checkbox" className="item-claimed-checkbox" checked={itemClaimed} onChange={updateClaimed} ref={claimedRef}></input>

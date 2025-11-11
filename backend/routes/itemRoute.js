@@ -1,10 +1,6 @@
-const path = require("path");
-const Datastore = require("nedb");
 const express = require("express");
 
 const {Item} = require("../models/itemModel");
-
-const database = new Datastore({filename: path.resolve(__dirname, "../databases/items.db"), autoload: true});
 
 const router = express.Router();
 
@@ -37,13 +33,14 @@ router.post("/", async (request, response) => {
   const savedItem = await item.save();
   
   console.log("Succesfully added item");
-  response.status(200).send("Added item");
+  response.status(200).json(savedItem);
 })
 
 //Update claimed status
 router.put("/claimed", async (request, response) => {
   const claimed = request.body.claimed;
   const id = request.body.id;
+  let claimedBy = request.body.claimedBy;
 
   console.log("Updating claimed status to: " + claimed + " for item with ID: " + id);
 
@@ -57,26 +54,29 @@ router.put("/claimed", async (request, response) => {
     return response.status(400).json("Include item ID");
   }
 
-  database.update({_id: id}, {$set: {claimed: claimed}}, {}, (error, numReplaced) => {
-    if (error) {
-      console.error("Error updating claimed status:", error);
-      return response.status(500).json("Error updating claimed status");
-    }
-  });
+  if(!claimedBy){
+    console.log("Please include claimedBy username");
+    return response.status(400).json("Include claimedBy username");
+  }
+
+  if(!claimed){
+    claimedBy = "No one";
+  }
+
+  console.log((await Item.findByIdAndUpdate(id, {claimed: claimed, claimedBy: claimedBy}).exec()).claimed);
 
   return response.status(200).json("Updated claimed status");
 });
 
 router.get("/", async (request,response) => {
-  database.find({}, (error, data) => {
-        if (error) {
-          console.log("Error getting items: ", error);
-          return response.status(500).json("Error getting items");
-        }
-        response.json(data);
-    })
 
-    console.log("I got a request for item!");
+  console.log("I got a request for items!");
+
+  const items = await Item.find({}).exec();
+
+  console.log(items);
+
+  return response.status(200).json(items);
 }) 
 
 //Get s
