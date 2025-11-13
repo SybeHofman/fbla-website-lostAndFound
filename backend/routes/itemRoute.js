@@ -24,7 +24,7 @@ router.post("/", async (request, response) => {
 
   if(!picture || !text){
     console.log("Please make sure to insert all required parts");
-    response.status(400).send("Include the picture and the text");
+    response.status(400).json("Include the picture and the text");
     return;
   }
 
@@ -34,7 +34,7 @@ router.post("/", async (request, response) => {
   
   console.log("Succesfully added item");
   response.status(200).json(savedItem);
-})
+});
 
 //Update claimed status
 router.put("/claimed", async (request, response) => {
@@ -42,7 +42,7 @@ router.put("/claimed", async (request, response) => {
   const id = request.body.id;
   let claimedBy = request.body.claimedBy;
 
-  console.log("Updating claimed status to: " + claimed + " for item with ID: " + id);
+  console.log("Updating claimed status to: ", claimed, " for item with ID: ", id);
 
   if(claimed === undefined){
     console.log("Please include claimed status");
@@ -77,8 +77,21 @@ router.get("/", async (request,response) => {
   console.log(items);
 
   return response.status(200).json(items);
-}) 
+});
 
-//Get s
+router.delete("/", async (request, response) => {
+  const id = request.body.id;
+
+  if(!id){
+    console.log("Please include item ID");
+    return response.status(400).json("Include item ID");
+  }
+
+  console.log("Deleting item with ID: ", id);
+
+  const item = Item.findByIdAndDelete(id).exec();
+
+  return response.status(200).json("Deleted item");
+});
 
 module.exports = router;

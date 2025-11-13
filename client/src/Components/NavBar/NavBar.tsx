@@ -5,7 +5,9 @@ function NavBar() {
   const [open, setOpen] = useState(false);
 
   const logOut = () => {
-    sessionStorage.removeItem("_id");
+    sessionStorage.removeItem("id");
+    sessionStorage.removeItem("username");
+    sessionStorage.removeItem("admin");
     // close menu on logout (mobile)
     setOpen(false);
   }

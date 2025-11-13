@@ -1,15 +1,14 @@
 import "./Login.css";
 import {Link} from "react-router-dom";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import type { MouseEvent } from "react";
 
 function Login () {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-  const [rememberMe, changeRememberMe] = useState(false);
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
-    //e.preventDefault();
+    e.preventDefault();
 
     if(usernameRef.current == null || passwordRef.current == null) {
       console.error("Username or password input is null");
@@ -43,14 +42,10 @@ function Login () {
 
     const user = await response.json();
     console.log(user);
-    // if(rememberMe){
-    //   localStorage.setItem("_id", JSON.stringify(id.id));
-    // } else {
-    //   sessionStorage.setItem("_id", JSON.stringify(id.id));
-    // }
 
-    sessionStorage.setItem("_id", JSON.stringify(user._id));
-    sessionStorage.setItem("username", JSON.stringify(user.username));
+    sessionStorage.setItem("id", JSON.stringify(user._id).replaceAll("\"", ""));
+    sessionStorage.setItem("username", JSON.stringify(user.username).replaceAll("\"", ""));
+    sessionStorage.setItem("admin", JSON.stringify(user.admin));
   }
 
   return (
@@ -62,8 +57,8 @@ function Login () {
           <input ref={usernameRef} className="login-contents" type="text" id="usernameInput" aria-label="Input one of two"></input><br/>
 
           <label className="login-contents" htmlFor = "passwordInput">Password: </label>
-          <input ref = {passwordRef} className="login-contents" type="password" id="passwordInput" aria-label="Input two of two"></input>
-          <button className="login-contents" type="button" onClick={() => changeRememberMe(previous => !previous)}>{rememberMe + ""}</button>
+          <input ref = {passwordRef} className="login-contents" type="password" id="passwordInput" aria-label="Input two of two"></input><br/>
+
           <Link to="/">
             <button className="login-contents" type="submit" onClick={handleClick}>Submit</button>
           </Link>

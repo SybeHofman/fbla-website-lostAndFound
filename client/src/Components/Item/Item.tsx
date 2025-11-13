@@ -7,9 +7,10 @@ interface ItemProps {
   claimed: boolean;
   claimedBy: string;
   id: string;
+  onDelete: (id: string) => Promise<void>;
 }
 
-const Item: React.FC<ItemProps> = ({text, picture, claimed, id, claimedBy}) => {
+const Item: React.FC<ItemProps> = ({text, picture, claimed, id, claimedBy, onDelete}) => {
 
   const claimedRef = useRef<HTMLInputElement>(null);
 
@@ -23,6 +24,18 @@ const Item: React.FC<ItemProps> = ({text, picture, claimed, id, claimedBy}) => {
   useEffect(() => {
     setItemClaimed(claimed);
   }, [claimed]);
+
+  const updateClaimedAdmin = async () => {
+    const confirmed = confirm("Are you sure you want to change the claimed status of this item?");
+
+    if(confirmed) {
+      updateClaimed();
+    }
+  }
+
+  const deleteItem = async () => {
+    await onDelete(id);
+  }
 
   const updateClaimed = async () => {
     console.log("Updating claimed status...");
@@ -55,14 +68,24 @@ const Item: React.FC<ItemProps> = ({text, picture, claimed, id, claimedBy}) => {
     <div className="item">
       <div className="item-text">{text}</div>
       {text !== "Loading items" && text !== "No items" ? 
-        (
+      <>
+        <div className="item-claimed">Claimed by: {itemClaimed ? claimedBy : "No one"}</div>
+        {picture !== "" ? <img src={picture} className="item-picture"></img> : null}
+        {claimedBy === sessionStorage.getItem("username") || !itemClaimed || sessionStorage.getItem("admin") === "true" ?
         <>
-          <div className="item-claimed">Claimed by: {itemClaimed ? claimedBy.replaceAll("\"", "") : "No one"}</div>
-          {picture !== "" ? <img src={picture} className="item-picture"></img> : null}
           <label className="item-claimed-label" htmlFor="item-claimed-checkbox">Claim:</label>
-          <input type="checkbox" className="item-claimed-checkbox" checked={itemClaimed} onChange={updateClaimed} ref={claimedRef}></input>
+          <input type="checkbox" className="item-claimed-checkbox" checked={itemClaimed} onChange={sessionStorage.getItem("admin") !== "true" ? updateClaimed: updateClaimedAdmin} ref={claimedRef}></input>
         </>
-        ) : null
+        : null
+        }
+        {sessionStorage.getItem("admin") === "true" ?
+        <div className="item-delete top-right" onClick={deleteItem}>
+          🗑︎
+        </div>
+        : null
+        }
+      </>
+      : null
       }
     </div>
   )

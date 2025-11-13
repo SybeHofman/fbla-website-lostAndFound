@@ -29,7 +29,7 @@ app.use("/api/items", require("./routes/itemRoute"));
 mongoose
     .connect(mongoURI)
     .then(() => {
-        console.log('Connected to MongoDB');
-        app.listen(PORT, '0.0.0.0', () => console.log(`Backend running on port ${PORT}`));
+        console.log("Connected to MongoDB");
+        app.listen(PORT, "0.0.0.0", () => console.log(`Backend running on port ${PORT}`));
     })
-    .catch(err => console.error('Failed to connect to MongoDB:', err));
+    .catch(err => console.error("Failed to connect to MongoDB:", err));

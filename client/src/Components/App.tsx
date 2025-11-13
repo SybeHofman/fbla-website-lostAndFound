@@ -7,12 +7,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
 function App() {
-  const _id = localStorage.getItem("_id") || sessionStorage.getItem("_id");
-
-  if(_id === null) {
-    console.log("No user logged in");
-  }
-
   return (
     <>
       <NavBar></NavBar>

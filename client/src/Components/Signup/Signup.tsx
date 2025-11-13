@@ -1,11 +1,13 @@
 import {Link} from "react-router-dom";
 import "./Signup.css";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import type { MouseEvent } from "react";
 
 function Signup() {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+
+  const [usernameExists, setUsernameExists] = useState<boolean>(false);
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -37,15 +39,27 @@ function Signup() {
     const response = await fetch("/api/users", options);
 
     const data = await response.json();
+
+    if(data === "Username already exists") {
+      setUsernameExists(true);
+      return;
+    }
+
     console.log(data);
   }
 
   return (
     <>
-      <h1>Welcome to Beyond Eyes! Please signup with username and password</h1>
+      <h1>Welcome to Lost and Found! Please signup with username and password</h1>
       <div className = "signup">
         <label className="signup-contents" htmlFor = "usernameInput">Username: </label>
         <input ref={usernameRef} className="signup-contents" type="text" id="usernameInput" aria-label="Input one of two"></input><br/>
+
+        {usernameExists ?
+        <div className="signup-contents signup-username-exists">
+          Username already exists
+        </div>
+        : null} 
 
         <label className="signup-contents" htmlFor = "passwordInput">Password: </label>
         <input ref={passwordRef} className="signup-contents" type="password" id="passwordInput" aria-label="Input two of two"></input> <br/>

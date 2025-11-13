@@ -16,19 +16,26 @@ router.post("/", async (request, response) => {
   let hash;
 
   if (!username || !password) {
-    return response.status(400).send("Username and password are required");
+    return response.status(400).json("Username and password are required");
+  }
+
+  //Checking if username already exists
+  const existingUser = await User.find({ username: username });
+  if (existingUser.length > 0) {
+    return response.status(400).json("Username already exists");
   }
 
   try {
     hash = await argon2.hash(password);
   } catch (error) {
     console.log(error);
-    return response.status(500).send("Error hashing password");
+    return response.status(500).json("Error hashing password");
   }
 
   const newData = {
     username: username,
     password: hash,
+    admin: false
   };
 
   const user = new User(newData);
@@ -44,7 +51,7 @@ router.get("/", (request, response) => {
   User.find({}, (error, users) => {
     if (error) {
       console.log("Error retrieving users:", error);
-      return response.status(500).send("Error retrieving users");
+      return response.status(500).json("Error retrieving users");
     }
 
     return response.status(200).json(users);
@@ -62,23 +69,23 @@ router.post("/authenticate", async (request, response) => {
 
   // Validate username and password
   if (!username || !password) {
-    return response.status(400).send("Username and password are required");
+    return response.status(400).json("Username and password are required");
   }
   try{
     const user = await User.findOne({ username: username });
 
     if (!user) {
-      return response.status(400).send("Invalid username");
+      return response.status(400).json("Invalid username");
     }
 
     try {
       const validPassword = await argon2.verify(user.password, password);
       if (!validPassword) {
-        return response.status(400).send("Invalid username or password");
+        return response.status(400).json("Invalid username or password");
       }
     } catch (error) {
       console.log(error);
-      return response.status(500).send("Error verifying password");
+      return response.status(500).json("Error verifying password");
     }
 
     console.log(user._id);
@@ -87,7 +94,7 @@ router.post("/authenticate", async (request, response) => {
 
   } catch (error) {
     console.log(error);
-    return response.status(500).send("Error finding user:", error);
+    return response.status(500).json("Error finding user:", error);
   }
 });
 
