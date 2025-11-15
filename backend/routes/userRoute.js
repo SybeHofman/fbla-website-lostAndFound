@@ -46,16 +46,18 @@ router.post("/", async (request, response) => {
 });
 
 //Get all users
-router.get("/", (request, response) => {
+router.get("/", async (request, response) => {
   console.log("I got a request for users!");
-  User.find({}, (error, users) => {
-    if (error) {
-      console.log("Error retrieving users:", error);
-      return response.status(500).json("Error retrieving users");
-    }
 
+  try{
+    const users = await User.find({});
     return response.status(200).json(users);
-  });
+  } catch(error){
+    console.log("Error fetching users:", error);
+    return response.status(500).json("Error fetching users");
+  }
+
+  
 });
 
 //Authenticate user (login)
@@ -97,5 +99,29 @@ router.post("/authenticate", async (request, response) => {
     return response.status(500).json("Error finding user:", error);
   }
 });
+
+router.delete("/", async (request, response) => {
+  console.log("Deleting user!");
+
+  const id = request.body?.id;
+
+  if (!id) {
+    return response.status(400).json("User ID is required");
+  }
+
+  try {
+    const deletedUser = await User.findByIdAndDelete(id);
+
+    if (!deletedUser) {
+      return response.status(404).json("User not found");
+    }
+
+    console.log("Successfully deleted user");
+    response.status(200).json("Deleted user");
+  } catch (error) {
+    console.log("Error deleting user:", error);
+    return response.status(500).json("Error deleting user");
+  }
+})
 
 module.exports = router;

@@ -7,8 +7,7 @@ function Login () {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
-  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const handleClick = (_: MouseEvent<HTMLButtonElement>) => {
 
     if(usernameRef.current == null || passwordRef.current == null) {
       console.error("Username or password input is null");

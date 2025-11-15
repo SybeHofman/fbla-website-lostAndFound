@@ -3,6 +3,7 @@ import Login from "./Login/Login.tsx";
 import Signup from "./Signup/Signup.tsx";
 import Homepage from "./Homepage/Homepage.tsx";
 import NavBar from "./NavBar/NavBar.tsx";
+import UserView from "./UserView/UserView.tsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
@@ -14,9 +15,10 @@ function App() {
         <BrowserRouter>
           <Routes>
             
-            <Route path="/" element={<Homepage/>}></Route>
+            <Route path="/" element={<Homepage/>} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/userview" element={<UserView />} />
           </Routes>
         </BrowserRouter>
       </div>
