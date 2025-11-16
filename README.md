@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e161df2a77c3d13f8b7b02c4a9fc4bcd71171a513aeb2c48dccfa45dc0a8eda7
-size 393
+## How to start backend
+1. Make sure you have Node.js and npm installed
+2. Open terminal (click `terminal` at the top left of the vscode window and click `new terminal`)
+3. Type `npm run backend` and hit enter
+
+## How to start client
+1. Make sure you have Node.js and npm installed
+2. Open a terminal different from the terminal used to start the backend
+3. type `npm run client` and hit enter

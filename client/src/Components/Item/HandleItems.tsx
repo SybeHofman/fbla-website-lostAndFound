@@ -153,12 +153,17 @@ const HandleItems: React.FC<ItemHandlerProps> = (id) => {
         <Item text={item.text} picture={item.picture} claimed={item.claimed} claimedBy={item.claimedBy} id={item._id} key={index} onDelete={deleteItem}/>
       ))}
 
-      <h2>Add items</h2>
-      <div className = "item-input">
-        <input type = "text" id = "item-input-text" ref={itemTextRef}></input>
-        <input type = "file" ref={pictureRef} accept="image/*"></input>
-        <button type="submit" onClick={postItem}>SUBMIT</button>
-      </div>
+      { id !== null ?
+        <>
+        <h2>Add items</h2>
+        <div className = "item-input">
+          <input type = "text" id = "item-input-text" ref={itemTextRef}></input>
+          <input type = "file" ref={pictureRef} accept="image/*"></input>
+          <button type="submit" onClick={postItem}>SUBMIT</button>
+        </div>
+        </>
+        : null
+      }
     </>
   )
 }

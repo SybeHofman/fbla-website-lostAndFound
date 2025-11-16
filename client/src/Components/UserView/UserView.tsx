@@ -2,13 +2,43 @@ import "./UserView.css"
 import { useState, useEffect } from "react";
 import User from "./User";
 
-interface UserViewProps {
-  id: string | null;
-}
-
-const UserView: React.FC<UserViewProps> = (id) => {
+function UserView() {
   
   const [users, setUsers] = useState([{username: "Loading users", id: "", admin: false}]);
+
+  const [id, setId] = useState<string | null>(sessionStorage.getItem("id"));
+
+  useEffect(() => {
+    function changeId() {
+      console.log("Storage changed, updating id");
+      setId(sessionStorage.getItem("id"));
+    }
+
+    console.log("Second check", id); 
+
+    window.addEventListener("storage", changeId)
+
+    return () => {
+      window.removeEventListener("storage", changeId)
+    }
+  }, []);
+
+  const [admin, setAdmin] = useState<string | null>(sessionStorage.getItem("admin"));
+
+  useEffect(() => {
+    function changeAdmin() {
+      console.log("Storage changed, updating admin");
+      setAdmin(sessionStorage.getItem("admin"));
+    }
+
+    console.log("Second check", id); 
+
+    window.addEventListener("storage", changeAdmin)
+
+    return () => {
+      window.removeEventListener("storage", changeAdmin)
+    }
+  }, []);
 
   const fetchUsers = async () => {
     try{
@@ -68,11 +98,17 @@ const UserView: React.FC<UserViewProps> = (id) => {
   }, [id])
 
   return (
-    <div className = "user-view">
-      {users.map((item, index) => (
-        <User username={item.username} id={item.id} admin={item.admin} onDelete={deleteItem} key={index}/>
-      ))}
-    </div>
+    <>
+      { 
+      admin === "true" ?
+      <div className = "user-view">
+        {users.map((item, index) => (
+          <User username={item.username} id={item.id} admin={item.admin} onDelete={deleteItem} key={index}/>
+        ))}
+      </div>
+      : <h1>Error: does not exist</h1>
+      }
+    </>
   )
 }
 

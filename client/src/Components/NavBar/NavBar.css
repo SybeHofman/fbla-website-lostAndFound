@@ -9,8 +9,7 @@
   justify-content: space-between;
   gap: 12px;
   font-size: 1.1rem;
-  margin-bottom: 10px;
-
+  margin-bottom: 5px;
   max-height: 100px;
 }
 
@@ -52,7 +51,6 @@
   margin: 4px 0;
 }
 
-/* Mobile styles */
 @media (max-width: 680px) {
   .hamburger{
     display: inline-flex;
@@ -61,7 +59,6 @@
     align-items: center;
   }
 
-  /* hide the horizontal links by default on small screens */
   .right-links{
     display: none;
     position: absolute;
@@ -76,7 +73,6 @@
     z-index: 200;
   }
 
-  /* when open, show vertical menu */
   .right-links.open{
     display: flex;
   }

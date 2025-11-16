@@ -1,0 +1,44 @@
+h1{
+  font-size: 3rem;
+}
+
+a{
+  text-decoration: none;
+  color: black;
+}
+
+.login-info{
+  background-image: url("../../assets/school_bg.jpeg");
+  display: flex;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  flex-direction: row;
+  gap: 50px;
+  padding: 50px;
+}
+
+.login-button{
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  border-radius: 100px;
+  background-color: orange;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.login-buttons{
+  color: black;
+  background-color: white;
+  border-radius: 20px;
+  padding: 10px;
+  max-width: 500px;
+  width: 100%;
+}
+
+@media (max-width: 1200px) {
+  .login-info{
+    flex-direction: column;
+  }
+}
