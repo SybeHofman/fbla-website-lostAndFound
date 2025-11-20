@@ -1,0 +1,13 @@
+.user{
+  background-color: lightgrey;
+  border-radius: 10px;
+  width: fit-content;
+  padding-left: 5px;
+  padding-bottom: 5px;
+  padding-right: 5px;
+  margin: 2px;
+}
+
+.username{
+  margin-top: 5px;
+}

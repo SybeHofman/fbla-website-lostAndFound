@@ -1,5 +1,6 @@
 import "./Item.css";
 import { useRef, useState, useEffect } from "react";
+import trash from "../../assets/trash.png";
 
 interface ItemProps {
   text: string;
@@ -18,12 +19,17 @@ const Item: React.FC<ItemProps> = ({text, picture, claimed, id, claimedBy, onDel
   console.log("Item claimed state prop: ", claimed);
 
   const [itemClaimed, setItemClaimed] = useState(claimed);
+  const [claimedByState, setClaimedBy] = useState<string | null>(claimedBy);
 
   console.log("Item claimed state: ", itemClaimed);
 
   useEffect(() => {
     setItemClaimed(claimed);
   }, [claimed]);
+
+  useEffect(() => {
+    setClaimedBy(claimedBy);
+  }, [claimedBy])
 
   const updateClaimedAdmin = async () => {
     const confirmed = confirm("Are you sure you want to change the claimed status of this item?");
@@ -56,7 +62,9 @@ const Item: React.FC<ItemProps> = ({text, picture, claimed, id, claimedBy, onDel
       )}
 
       const response = await fetch("/api/items/claimed", options);
-      setItemClaimed((prev) => !prev);
+
+      setItemClaimed(prev => !prev);
+      setClaimedBy(sessionStorage.getItem("username"));
       return response.json();
     } catch(error){
       console.log("Error updating claimed status:", error);
@@ -66,21 +74,23 @@ const Item: React.FC<ItemProps> = ({text, picture, claimed, id, claimedBy, onDel
   //TODO: Show who claimed item and prevent unclaiming unless admin or previous claimer
   return (
     <div className="item">
-      <div className="item-text">{text}</div>
-      {text !== "Loading items" && text !== "No items" ? 
-      <>
-        <div className="item-claimed">Claimed by: {itemClaimed ? claimedBy : "No one"}</div>
-        {picture !== "" ? <img src={picture} className="item-picture"></img> : null}
-        {claimedBy === sessionStorage.getItem("username") || !itemClaimed || sessionStorage.getItem("admin") === "true" ?
-        <>
-          <label className="item-claimed-label" htmlFor="item-claimed-checkbox">Claim:</label>
-          <input type="checkbox" className="item-claimed-checkbox" checked={itemClaimed} onChange={sessionStorage.getItem("admin") !== "true" ? updateClaimed: updateClaimedAdmin} ref={claimedRef}></input>
-        </>
+      <div className="item-top">
+        <span className="item-text" role="text">{text}</span>
+        {sessionStorage.getItem("admin") === "true" ?
+        <img className="item-delete top-right" src={trash} onClick={deleteItem}></img>
         : null
         }
-        {sessionStorage.getItem("admin") === "true" ?
-        <div className="item-delete top-right" onClick={deleteItem}>
-          🗑︎
+      </div>
+      {text !== "Loading items" && text !== "No items" ? 
+      <>
+        <div className="item-claimed">Claimed by: {itemClaimed ? claimedByState : "No one"}</div>
+        <div className="picture-holder">
+          {picture !== "" ? <img src={picture} className="item-picture"></img> : null}
+        </div>
+        {(claimedByState === sessionStorage.getItem("username") || !itemClaimed || sessionStorage.getItem("admin") === "true") && sessionStorage.getItem("username") !== null ?
+        <div>
+          <label className="item-claimed-label" htmlFor="item-claimed-checkbox">Claim:</label>
+          <input type="checkbox" className="item-claimed-checkbox" checked={itemClaimed} onChange={sessionStorage.getItem("admin") !== "true" ? updateClaimed: updateClaimedAdmin} ref={claimedRef}></input>
         </div>
         : null
         }

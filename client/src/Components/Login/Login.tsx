@@ -1,5 +1,5 @@
 import "./Login.css";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { useRef } from "react";
 import type { MouseEvent } from "react";
 
@@ -7,7 +7,9 @@ function Login () {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
-  const handleClick = (_: MouseEvent<HTMLButtonElement>) => {
+  const navigate = useNavigate();
+
+  const handleClick = async (_: MouseEvent<HTMLButtonElement>) => {
 
     if(usernameRef.current == null || passwordRef.current == null) {
       console.error("Username or password input is null");
@@ -19,7 +21,8 @@ function Login () {
       return;
     }
 
-    authenticate(usernameRef.current?.value, passwordRef.current?.value);
+    await authenticate(usernameRef.current?.value, passwordRef.current?.value);
+    navigate("/");
   }
 
   const authenticate = async (username: string, password: string) => {
@@ -49,20 +52,21 @@ function Login () {
 
   return (
     <>
-      <div className = "login">
-        <h1>Welcome! Please login to your account</h1>
+      <div className = "login-info login">
+        <div className="login-left">
+          <h1>Welcome <br/> Please login to your account</h1>
+          <h2>New to lost and found?</h2>
+          <Link to="/signup"><h2 className="to-signup">Signup</h2></Link>
+        </div>
         <div>
-          <label className="login-contents" htmlFor = "usernameInput">Username: </label>
+          <label className="login-contents" htmlFor = "usernameInput">Username: </label> <br/>
           <input ref={usernameRef} className="login-contents" type="text" id="usernameInput" aria-label="Input one of two"></input><br/>
 
-          <label className="login-contents" htmlFor = "passwordInput">Password: </label>
+          <label className="login-contents" htmlFor = "passwordInput">Password: </label> <br/>
           <input ref = {passwordRef} className="login-contents" type="password" id="passwordInput" aria-label="Input two of two"></input><br/>
 
-          <Link to="/">
-            <button className="login-contents" type="submit" onClick={handleClick}>Submit</button>
-          </Link>
+          <button className="login-contents" type="submit" onClick={handleClick}>Submit</button>
         </div>
-        <Link to="/signup">Signup</Link>
       </div>
     </>
   )

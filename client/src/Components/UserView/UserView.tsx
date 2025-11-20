@@ -4,7 +4,7 @@ import User from "./User";
 
 function UserView() {
   
-  const [users, setUsers] = useState([{username: "Loading users", id: "", admin: false}]);
+  const [users, setUsers] = useState([{username: "Loading users", _id: "", admin: false}]);
 
   const [id, setId] = useState<string | null>(sessionStorage.getItem("id"));
 
@@ -50,7 +50,7 @@ function UserView() {
 
       const responseJson = await response.json();
       if(responseJson.length === 0) {
-        setUsers([{username: "No users", id: "", admin: false}]);
+        setUsers([{username: "No users", _id: "", admin: false}]);
       } else{
         setUsers(responseJson);
       }
@@ -64,6 +64,13 @@ function UserView() {
 
     if(!confirmed) {
       return;
+    }
+
+    
+    if(id === sessionStorage.getItem("id")){
+      sessionStorage.removeItem("id");
+      sessionStorage.removeItem("username");
+      sessionStorage.removeItem("admin");
     }
     
     try{
@@ -103,7 +110,7 @@ function UserView() {
       admin === "true" ?
       <div className = "user-view">
         {users.map((item, index) => (
-          <User username={item.username} id={item.id} admin={item.admin} onDelete={deleteItem} key={index}/>
+          <User username={item.username} id={item._id} admin={item.admin} onDelete={deleteItem} key={index}/>
         ))}
       </div>
       : <h1>Error: does not exist</h1>

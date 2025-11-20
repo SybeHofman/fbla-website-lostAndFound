@@ -10,11 +10,15 @@ interface UserProps {
 const User: React.FC<UserProps> = ({username, id, admin, onDelete}) => {
 
   const deleteUser = () => {
-    onDelete(id);
+    if(admin){
+      alert("Cannot delete admin users");
+    } else{
+      onDelete(id);
+    }
   }
 
   return (
-    <div className="user-card">
+    <div className="user">
       <h3 className="username">{username}</h3>
       {username !== "Loading users" && username !== "No users" ?
       <>

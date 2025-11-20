@@ -27,7 +27,6 @@ function NavBar() {
     sessionStorage.removeItem("id");
     sessionStorage.removeItem("username");
     sessionStorage.removeItem("admin");
-    // close menu on logout (mobile)
     setOpen(false);
   }
 
@@ -35,7 +34,7 @@ function NavBar() {
     <nav className = "navbar">
       <div className="navbar-left">
         <a className="navbar-brand navbar-content" href="/">
-          <img className="navbar-logo" src={logo}></img>
+          <img className="navbar-logo" src={logo} alt="Homepage logo"></img>
         </a>
       </div>
 
@@ -52,6 +51,7 @@ function NavBar() {
 
       <div className={`right-links ${open ? "open" : ""}`}>
         { isAdmin === "true" ? <a className="navbar-content" href="/userview">View users</a> : null }
+        <a className="navbar-content" href="/items">Items</a>
         <a className="navbar-content" href="/login">Login</a>
         <a className="navbar-content" href="/signup">Sign Up</a>
         <a className="navbar-content" onClick={logOut} href="/">Log out</a>

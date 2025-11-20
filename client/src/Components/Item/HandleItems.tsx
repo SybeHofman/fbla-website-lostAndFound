@@ -1,12 +1,26 @@
 import Item from "./Item";
+import "./HandleItems.css"
 
 import { useState, useEffect, useRef } from "react";
 
-interface ItemHandlerProps {
-  id: string | null;
-}
+function HandleItems(){
 
-const HandleItems: React.FC<ItemHandlerProps> = (id) => {
+  const [id, setId] = useState<string | null>(sessionStorage.getItem("id"));
+
+  useEffect(() => {
+    function changeId() {
+      console.log("Storage changed, updating id");
+      setId(sessionStorage.getItem("id"));
+    }
+
+    console.log("Second check", id); 
+
+    window.addEventListener("storage", changeId)
+
+    return () => {
+      window.removeEventListener("storage", changeId)
+    }
+  }, []);
 
   const itemTextRef = useRef<HTMLInputElement>(null);
   const pictureRef = useRef<HTMLInputElement>(null);
@@ -108,7 +122,7 @@ const HandleItems: React.FC<ItemHandlerProps> = (id) => {
         return;
       }
 
-      fetchItems();
+      await fetchItems();
       return;
     } catch(error){
       console.log("Error deleting item: ", error);
@@ -149,9 +163,11 @@ const HandleItems: React.FC<ItemHandlerProps> = (id) => {
       <h2>Items</h2>
       <label htmlFor="item-search-input">Search Items:</label>
       <input type="text" id="item-search-input" onChange={checkSearch}></input>
-      {items.map((item, index) => (
-        <Item text={item.text} picture={item.picture} claimed={item.claimed} claimedBy={item.claimedBy} id={item._id} key={index} onDelete={deleteItem}/>
-      ))}
+      <div className="items">
+        {items.map((item, index) => (
+          <Item text={item.text} picture={item.picture} claimed={item.claimed} claimedBy={item.claimedBy} id={item._id} key={index} onDelete={deleteItem}/>
+        ))}
+      </div>
 
       { id !== null ?
         <>

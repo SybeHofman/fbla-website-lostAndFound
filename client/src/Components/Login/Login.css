@@ -1,13 +1,29 @@
 .login {
-  padding: 10px;
-  background-color: lightblue;
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  width: 300px;
-  border-radius: 5%;
+  justify-content: space-evenly;
 }
 
 .login-contents {
   margin:10px;
+  font-size: 1.5rem;
+}
+
+.to-signup{
+  background-color: white;
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 100px;
+}
+
+.to-signup:hover{
+  background-color: lightgrey;
+}
+
+.login-left{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
